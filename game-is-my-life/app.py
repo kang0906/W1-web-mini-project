@@ -105,12 +105,20 @@ def check_dup():
     return jsonify({'result': 'success', 'exists': exists})
 
 
-
 @app.route('/content', methods=['GET'])
 def show_diary():
-    alldata = list(db.data.find({},{'_id':False}))
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        alldata = list(db.data.find({},{'_id':False}))
+        for post in alldata:
+            post["_id"] = str(post["_id"])
+            post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
+            post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": payload['id']}))
+        return jsonify({'data':alldata})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("/"))
 
-    return jsonify({'data':alldata})
 
 @app.route('/content', methods=['POST'])
 def save_content():
@@ -118,6 +126,10 @@ def save_content():
     now = today.strftime('%y-%m-%d-%H-%M-%S')
     date = today.strftime('%y년 %m월') 
     content_receive = request.form['content_give']
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    # 좋아요 수 변경
+    user_info = db1.users.find_one({"username": payload["id"]})
     try :
         file = request.files["file_give"]
         extension = file.filename.split('.')[-1]
@@ -127,7 +139,8 @@ def save_content():
         doc ={
             'content':content_receive,
             'file':f'{filename}.{extension}',
-            'date':date
+            'date':date,
+            "username": user_info["username"]
         }
         db.data.insert_one(doc)
         return jsonify({'msg': '저장완룡'})
@@ -135,10 +148,37 @@ def save_content():
         doc ={
             'content':content_receive,
             'file':'none',
-            'date':date
+            'date':date,
+            "username": user_info["username"]
         }
         db.data.insert_one(doc)
         return jsonify({'msg': '저장완룡'})
+
+
+@app.route('/update_like', methods=['POST'])
+def update_like():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        # 좋아요 수 변경
+        user_info = db1.users.find_one({"username": payload["id"]})
+        post_id_receive = request.form["post_id_give"]
+        type_receive = request.form["type_give"]
+        action_receive = request.form["action_give"]
+        doc = {
+            "post_id": post_id_receive,
+            "username": user_info["username"],
+            "type": type_receive
+        }
+        if action_receive == "like":
+            db.likes.insert_one(doc)
+        else:
+            db.likes.delete_one(doc)
+        count = db.likes.count_documents({"post_id": post_id_receive, "type": type_receive})
+        return jsonify({"result": "success", 'msg': 'updated', "count": count})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

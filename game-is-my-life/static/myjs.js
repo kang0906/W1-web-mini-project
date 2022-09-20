@@ -14,6 +14,14 @@ function listing() {
         success: function (response) {
             let content = response['data'];
             for (let i = 0; i<content.length; i++) {
+                let post = content[i]
+                let class_heart = ""
+                if (post["heart_by_me"]) {
+                    class_heart = "fa-heart"
+                } else {
+                    class_heart = "fa-heart-o"
+                }
+                let count_heart = post['count_heart']
                 if (content[i]['file'] === "none") {
                     let value = `<section class="section">
                                     <div id="post-box" class="container">
@@ -28,15 +36,15 @@ function listing() {
                                                 <div class="media-content">
                                                     <div class="content">
                                                         <p>
-                                                            <strong>홍길동</strong> <small>@username</small> <small>10분 전</small>
+                                                            <strong>${post['username']}</strong> <small>@username</small> <small>10분 전</small>
                                                             <br>
                                                             ${content[i]['content']}
                                                         </p>
                                                     </div>
                                                     <nav class="level is-mobile">
-                                                        <div class="level-left">
-                                                            <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('', 'heart')">
-                                                                <span class="icon is-small"><i class="fa fa-heart" aria-hidden="true"></i></span>&nbsp;<span class="like-num">2.7k</span>
+                                                        <div class="level-left" id="${post["_id"]}">
+                                                            <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post['_id']}', 'heart')">
+                                                                <span class="icon is-small"><i class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(count_heart)}</span>
                                                             </a>
                                                         </div>
                                                     </nav>
@@ -63,13 +71,13 @@ function listing() {
                                                     <div class="media-content">
                                                         <div class="content">
                                                             <p>
-                                                                <strong>홍길동</strong> <small>@username</small> <small>10분 전</small>
+                                                                <strong>${post['username']}</strong> <small>@username</small> <small>10분 전</small>
                                                             </p>
                                                         </div>
                                                         <nav class="level is-mobile">
-                                                            <div class="level-left">
-                                                                <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('', 'heart')">
-                                                                    <span class="icon is-small"><i class="fa fa-heart" aria-hidden="true"></i></span>&nbsp;<span class="like-num">2.7k</span>
+                                                            <div class="level-left" id="${post["_id"]}">
+                                                                <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('${post['_id']}', 'heart')">
+                                                                    <span class="icon is-small"><i class="fa ${class_heart}" aria-hidden="true"></i></span>&nbsp;<span class="like-num">${num2str(count_heart)}</span>
                                                                 </a>
                                                             </div>
                                                         </nav>
@@ -113,4 +121,55 @@ function post() {
             window.location.reload()
         }
     });
+}
+
+function toggle_like(post_id, type) {
+    console.log(post_id, type)
+    let $a_like = $(`#${post_id} a[aria-label='heart']`)
+    let $i_like = $a_like.find("i")
+    if ($i_like.hasClass("fa-heart")) {
+        $.ajax({
+            type: "POST",
+            url: "/update_like",
+            data: {
+                post_id_give: post_id,
+                type_give: type,
+                action_give: "unlike"
+            },
+            success: function (response) {
+                console.log("unlike")
+                $i_like.addClass("fa-heart-o").removeClass("fa-heart")
+                $a_like.find("span.like-num").text(num2str(response["count"]))
+            }
+        })
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "/update_like",
+            data: {
+                post_id_give: post_id,
+                type_give: type,
+                action_give: "like"
+            },
+            success: function (response) {
+                console.log("like")
+                $i_like.addClass("fa-heart").removeClass("fa-heart-o")
+                $a_like.find("span.like-num").text(num2str(response["count"]))
+            }
+        })
+
+    }
+}
+
+function num2str(count) {
+    if (count > 10000) {
+        return parseInt(count / 1000) + "k"
+    }
+    if (count > 500) {
+        return parseInt(count / 100) / 10 + "k"
+    }
+    if (count == 0) {
+        return ""
+    }
+    return count
 }
