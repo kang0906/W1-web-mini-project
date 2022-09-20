@@ -110,7 +110,7 @@ def show_diary():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        alldata = list(db.data.find({},{'_id':False}))
+        alldata = list(db.data.find({}))
         for post in alldata:
             post["_id"] = str(post["_id"])
             post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
