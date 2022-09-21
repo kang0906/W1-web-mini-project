@@ -31,8 +31,10 @@
 <body class="has-navbar-fixed-top">
 
 <div class="my_image" >
-
+    <h1 class="my_title">Game Is My Life</h1>
+    <h3 class="my_logo">오늘 게임에서 있었던 일을 공유해보세요!</h3>
 </div>
+
 <nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="/">
@@ -40,12 +42,12 @@
             <strong class="is-sparta" style="font-family: 'Stylish', sans-serif;font-size: larger;">Game Is My
                 Life</strong>
         </a>
-        <!-- this is for you 민석 -->
-        <!-- <button style="position: absolute; top:5px;right:130px; " class="button level-item has-text-centered is-primary is-outlined" aria-label="logout"
-           onclick="#">
+
+         <a style="position: absolute; top:5px;right:130px; " class="button level-item has-text-centered is-primary is-outlined" aria-label="logout"
+           href="/user/{{ user_info.username }}">
             마이페이지&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-sign-out"
                                                                  aria-hidden="true"></i></span>
-        </button> -->
+        </a>
         <button style="position: absolute;top:5px; right: 5px; " class="button level-item has-text-centered is-sparta is-outlined" aria-label="logout"
            onclick="sign_out()">
             로그아웃&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-sign-out"

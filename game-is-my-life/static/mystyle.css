@@ -1,11 +1,38 @@
 .my_image {
-    background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3) ),url("https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160226_120%2Fmanny80_1456450941142Jem1v_JPEG%2Flol_%25283%2529.jpg&type=a340");
+    background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3) ),url("https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA4MTZfNTgg%2FMDAxNjYwNjYxOTA2MDcx.WYqryZjUjp6of1brylKv0fkpd15WoYcSvjQ77Xrnukkg.53FlYNctafQBfHUgNXN5Wvep5T5p1ubKp-bZIyDUVLsg.PNG.adorable409%2FScreen06.png&type=sc960_832");
     background-position: center;
 
-     background-size: 100% 200px;
+     background-size: 100% 400px;
 
       width: 100%;
-      height: 200px;
+      height: 400px;
+}
+
+.hero-body{
+  background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3) ),url("https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA4MTZfNTgg%2FMDAxNjYwNjYxOTA2MDcx.WYqryZjUjp6of1brylKv0fkpd15WoYcSvjQ77Xrnukkg.53FlYNctafQBfHUgNXN5Wvep5T5p1ubKp-bZIyDUVLsg.PNG.adorable409%2FScreen06.png&type=sc960_832");
+    background-position: center;
+     background-size: 100% 400px;
+
+}
+
+.hero-body > .hero is-white{
+    width: 50%;
+}
+
+.my_title{
+    font-size: 100px;
+    color: white;
+    text-align: center;
+    padding-top: 30px;
+    font-family: 'Yeon Sung', cursive;
+}
+
+.my_logo{
+    font-size: 30px;
+    color: white;
+    text-align: center;
+    padding-top: 70px;
+    font-family: 'Yeon Sung', cursive;
 }
 
 
