@@ -20,6 +20,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script src="{{ url_for('static', filename='myjs.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            listing();
+        });
+    </script>
 
 </head>
 
@@ -27,13 +32,19 @@
     <nav class="navbar is-fixed-top is-white" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
-                <!-- <img src="{{ url_for('static', filename='logo.png') }}"> -->
+                <img src="{{ url_for('static', filename='logo.png') }}">
                 <strong class="is-sparta" style="font-family: 'Stylish', sans-serif;font-size: larger;">Game Is My Life</strong>
             </a>
         </div>
     </nav>
     <section class="section">
         <article class="media">
+            <div class="media-left">
+                <a class="image is-64x64" href="/user/{{ user_info.username }}">
+                    <img class="is-rounded"
+                        src="{{ url_for('static', filename='profile_pics/profile_placeholder.png') }}" alt="Image">
+                </a>
+            </div>
             <div class="media-content">
                 <div class="field">
                     <p class="control">
