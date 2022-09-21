@@ -71,7 +71,8 @@
         </a>
     </div>
 </nav>
-<section class="hero is-white">
+<div class="hero-body">
+<section class="hero">
     <div style="padding-bottom:1rem;margin:auto;min-width: 400px">
         <article class="media">
             <figure class="media-left" style="align-self: center">
@@ -88,10 +89,10 @@
             </figure>
             <div class="media-content">
                 <div class="content">
-                    <p>
-                        <strong>{{ user_info.profile_name }}</strong> <small>@{{ user_info.username }}</small>
+                    <p style="color: white">
+                        <strong style="color: white">{{ user_info.profile_name }}</strong> <strong style="color: white">@{{ user_info.username }}</strong>
                         <br>
-                        {{ user_info.profile_info }}
+                       <strong style="color: white">{{ user_info.profile_info }}</strong>
                     </p>
                 </div>
             </div>
@@ -105,7 +106,7 @@
                                                                            aria-hidden="true"></i></span>
                 </a>
 
-                <a class="button level-item has-text-centered is-sparta is-outlined" aria-label="logout"
+                <a class="button level-item has-text-centered is-sparta" aria-label="logout"
                    onclick="sign_out()">
                     로그아웃&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-sign-out"
                                                                          aria-hidden="true"></i></span>
@@ -170,6 +171,7 @@
         {% endif %}
     </div>
 </section>
+</div>
 {% if status %}
     <section class="section">
         <article class="media">

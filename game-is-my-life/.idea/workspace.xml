@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8765c9ed-666b-40ff-a50b-3621fcfffc17" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/game-is-my-life.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/game-is-my-life.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="8765c9ed-666b-40ff-a50b-3621fcfffc17" name="변경" comment="마이페이지 기능 구현,&#10;백그라운드 이미지">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/mystyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/mystyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,18 +25,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/sprta/frontend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/sprta/frontend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="game-is-my-life" />
@@ -79,8 +75,17 @@
       <option name="presentableId" value="Default" />
       <updated>1663749947912</updated>
       <workItem from="1663749950691" duration="1978000" />
-      <workItem from="1663756596947" duration="7458000" />
+      <workItem from="1663756596947" duration="8211000" />
+      <workItem from="1663768702092" duration="977000" />
     </task>
+    <task id="LOCAL-00001" summary="마이페이지 기능 구현,&#10;백그라운드 이미지">
+      <created>1663765845354</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1663765845354</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -97,7 +102,11 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="마이페이지 기능 구현,&#10;백그라운드 이미지" />
+    <option name="LAST_COMMIT_MESSAGE" value="마이페이지 기능 구현,&#10;백그라운드 이미지" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/game_is_my_life$app.coverage" NAME="app 커버리지 결과" MODIFIED="1663756612772" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/game_is_my_life$app.coverage" NAME="app 커버리지 결과" MODIFIED="1663769047341" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
