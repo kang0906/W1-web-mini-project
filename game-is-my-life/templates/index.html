@@ -40,11 +40,12 @@
             <strong class="is-sparta" style="font-family: 'Stylish', sans-serif;font-size: larger;">Game Is My
                 Life</strong>
         </a>
-        <button style="position: absolute; top:5px;right:130px; " class="button level-item has-text-centered is-primary is-outlined" aria-label="logout"
+        <!-- this is for you 민석 -->
+        <!-- <button style="position: absolute; top:5px;right:130px; " class="button level-item has-text-centered is-primary is-outlined" aria-label="logout"
            onclick="#">
             마이페이지&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-sign-out"
                                                                  aria-hidden="true"></i></span>
-        </button>
+        </button> -->
         <button style="position: absolute;top:5px; right: 5px; " class="button level-item has-text-centered is-sparta is-outlined" aria-label="logout"
            onclick="sign_out()">
             로그아웃&nbsp;&nbsp;&nbsp;<span class="icon is-small"><i class="fa fa-sign-out"
@@ -56,8 +57,7 @@
     <article class="media">
         <div class="media-left">
             <a class="image is-64x64" href="/user/{{ user_info.username }}">
-                <img class="is-rounded"
-                    src="{{ url_for('static', filename='profile_pics/profile_placeholder.png') }}" alt="Image">
+                <img class="is-rounded" src="{{ url_for('static', filename='profile_pics/'+user_info.profile_pic_real) }}" alt="">
             </a>
         </div>
         <div class="media-content">

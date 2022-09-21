@@ -178,18 +178,17 @@ def save_img():
         }
     try:
         file = request.files["file_give"]
+        filename = secure_filename(file.filename)###
         extension = file.filename.split('.')[-1]
-        filename = f'file-{now}'
-        save_to = f'static/profile_pics/{filename}.{extension}'
-        file.save(save_to)
+        file_path = f"profile_pics/{username}.{extension}"###
+        file.save("./static/"+file_path)##
         new_doc["profile_pic"] = filename
-        new_doc["profile_pic_real"] = f'{filename}.{extension}'
+        new_doc["profile_pic_real"] = f"{username}.{extension}"
         db.users.update_one({'username': payload['id']}, {'$set':new_doc})
         return jsonify({"result": "success", 'msg': '프로필을 업데이트했습니다.'})
     except:
         db.users.update_one({'username': payload['id']}, {'$set':new_doc})
         return jsonify({"result": "success", 'msg': '프로필을 업데이트했습니다.'})
-
 
 @app.route('/update_like', methods=['POST'])
 def update_like():

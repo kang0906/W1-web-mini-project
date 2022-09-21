@@ -34,7 +34,7 @@ function listing(username) {
                                             <article class="media">
                                                 <div class="media-left">
                                                     <a class="image is-64x64" href="/user/${content[i]['username']}">
-                                                        <img class="is-rounded" src="{{ url_for('static', filename='profile_pics/profile_placeholder.png') }}" alt="Image">
+                                                        <img class="is-rounded" src="{{ url_for('static', filename='profile_pics/'+user_info.profile_pic_real) }}" alt="">
                                                     </a>
                                                 </div>
                                                 <div class="media-content">
@@ -69,7 +69,7 @@ function listing(username) {
                                                 <div class="media">
                                                     <div class="media-left">
                                                         <a class="image is-64x64" href="/user/${content[i]['username']}">
-                                                        <img class="is-rounded" src="{{ url_for('static', filename='profile_pics/profile_placeholder.png')}}" alt="Image">
+                                                            <img class="is-rounded" src="{{ url_for('static', filename='profile_pics/'+user_info.profile_pic_real) }}" alt="">
                                                         </a>
                                                     </div>
                                                     <div class="media-content">
