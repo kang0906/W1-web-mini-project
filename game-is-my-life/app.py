@@ -21,13 +21,12 @@ client = MongoClient('mongodb+srv://ParkBigKing:anjfqhk@cluster0.cfmmcms.mongodb
 db = client.gamestorytest
 
 
-
 @app.route('/')
 def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db1.users.find_one({"username": payload["id"]})
+        user_info = db.users.find_one({"username": payload["id"]})
         return render_template('index.html', user_info=user_info)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -49,7 +48,7 @@ def login():
 #         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 #         status = (username == payload["id"])  # 내 프로필이면 True, 다른 사람 프로필 페이지면 False
 #
-#         user_info = db1.users.find_one({"username": username}, {"_id": False})
+#         user_info = db.users.find_one({"username": username}, {"_id": False})
 #         return render_template('user.html', user_info=user_info, status=status)
 #     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
 #         return redirect(url_for("home"))
@@ -64,7 +63,7 @@ def sign_in():
     password_receive = request.form['password_give']
     #비밀번호 암호화(hash)
     pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    result = db1.users.find_one({'username': username_receive, 'password': pw_hash})
+    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
 
     #회원가입 정보 중 암호화 비밀번호와 로그인 암호화 비밀번호가 일치 하는게 있는지 확인한다.
     if result is not None:
@@ -93,7 +92,7 @@ def sign_up():
         "password": password_hash,                                  # 비밀번호
         "profile_name": username_receive,                           # 프로필 이름 기본값은 아이디
     }
-    db1.users.insert_one(doc)
+    db.users.insert_one(doc)
     return jsonify({'result': 'success'})
 
 
@@ -101,7 +100,7 @@ def sign_up():
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
     username_receive = request.form['username_give']
-    exists = bool(db1.users.find_one({"username": username_receive}))
+    exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
 
@@ -129,7 +128,7 @@ def save_content():
     token_receive = request.cookies.get('mytoken')
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     # 좋아요 수 변경
-    user_info = db1.users.find_one({"username": payload["id"]})
+    user_info = db.users.find_one({"username": payload["id"]})
     try :
         file = request.files["file_give"]
         extension = file.filename.split('.')[-1]
@@ -161,7 +160,7 @@ def update_like():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         # 좋아요 수 변경
-        user_info = db1.users.find_one({"username": payload["id"]})
+        user_info = db.users.find_one({"username": payload["id"]})
         post_id_receive = request.form["post_id_give"]
         type_receive = request.form["type_give"]
         action_receive = request.form["action_give"]
