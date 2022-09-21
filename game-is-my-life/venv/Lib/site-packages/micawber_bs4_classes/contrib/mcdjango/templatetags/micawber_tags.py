@@ -1,0 +1,1 @@
+from micawber_bs4_classes.contrib.mcdjango import register
