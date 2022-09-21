@@ -12,7 +12,9 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://ParkBigKing:anjfqhk@cluster0.cfmmcms.mongodb.net/?retryWrites=true&w=majority')
 db = client.gamestorytest
 
+
 SECRET_KEY = 'game is my life'
+
 
 @app.route('/')
 def home():
@@ -25,6 +27,31 @@ def home():
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
+
+##로그인 코드
+@app.route('/sign_in', methods=['POST'])
+def sign_in():
+    # 로그인
+    username_receive = request.form['username_give']
+    password_receive = request.form['password_give']
+    #비밀번호 암호화(hash)
+    pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
+
+    #회원가입 정보 중 암호화 비밀번호와 로그인 암호화 비밀번호가 일치 하는게 있는지 확인한다.
+    if result is not None:
+        payload = {
+         'id': username_receive,
+         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        return jsonify({'result': 'success', 'token': token})
+    # 찾지 못하면
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+
 
 @app.route('/content', methods=['GET'])
 def show_diary():
@@ -44,6 +71,7 @@ def show_diary():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
+
 @app.route('/content', methods=['POST'])
 def save_content():
     token_receive = request.cookies.get('mytoken')
@@ -53,6 +81,10 @@ def save_content():
     now = today.strftime('%y-%m-%d-%H-%M-%S')
     date = today.strftime('%y년 %m월') 
     content_receive = request.form['content_give']
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    # 좋아요 수 변경
+    user_info = db.users.find_one({"username": payload["id"]})
     try :
         file = request.files["file_give"]
         extension = file.filename.split('.')[-1]
@@ -65,7 +97,8 @@ def save_content():
             "profile_pic_real": user_info["profile_pic_real"],
             'content':content_receive,
             'file':f'{filename}.{extension}',
-            'date':date
+            'date':date,
+            "username": user_info["username"]
         }
         db.posts.insert_one(doc)
         return jsonify({'msg': '저장완룡'})
@@ -76,10 +109,12 @@ def save_content():
             "profile_pic_real": user_info["profile_pic_real"],
             'content':content_receive,
             'file':'none',
-            'date':date
+            'date':date,
+            "username": user_info["username"]
         }
         db.posts.insert_one(doc)
         return jsonify({'msg': '저장완룡'})
+
 
 # 로그인파트##################################################################### 추가내용
 
@@ -88,25 +123,6 @@ def login():
     msg = request.args.get("msg")
     return render_template('signup.html', msg=msg)
 
-
-##로그인 코드
-@app.route('/sign_in', methods=['POST'])
-def sign_in():
-    username_receive = request.form['username_give']
-    password_receive = request.form['password_give']
-    pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
-
-    if result is not None:
-        payload = {
-         'id': username_receive,
-         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24) 
-        }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-
-        return jsonify({'result': 'success', 'token': token})
-    else:
-        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 ##회원가입 코드
 @app.route('/sign_up/save', methods=['POST'])
@@ -125,6 +141,8 @@ def sign_up():
     db.users.insert_one(doc)
     return jsonify({'result': 'success'})
 
+
+# 클라이언트에서 통과 한 값을 db에 있는지 없는지 체크해서 알려준다.
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
     username_receive = request.form['username_give']
@@ -178,6 +196,8 @@ def update_like():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        # 좋아요 수 변경
         user_info = db.users.find_one({"username": payload["id"]})
         post_id_receive = request.form["post_id_give"]
         type_receive = request.form["type_give"]
@@ -187,7 +207,8 @@ def update_like():
             "username": user_info["username"],
             "type": type_receive
         }
-        if action_receive =="like":
+        if action_receive == "like":
+
             db.likes.insert_one(doc)
         else:
             db.likes.delete_one(doc)
