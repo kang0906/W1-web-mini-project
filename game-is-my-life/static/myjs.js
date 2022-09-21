@@ -1,18 +1,20 @@
 $(document).ready(function () {
-    listing();
     $("#file").on('change',function(){
         var fileName = $("#file").val();
         $(".upload-name").val(fileName);
     });
 });
 
-function listing() {
+function listing(username) {
+    if (username==undefined) {
+        username=""
+    }
     $.ajax({
         type: "GET",
-        url: "/content",
+        url: `/content?username_give=${username}`,
         data: {},
         success: function (response) {
-            let content = response['data'];
+            let content = response['posts'];
             for (let i = 0; i<content.length; i++) {
                 if (content[i]['file'] === "none") {
                     let value = `<section class="section">
@@ -20,9 +22,8 @@ function listing() {
                                         <div class="box">
                                             <article class="media">
                                                 <div class="media-left">
-                                                    <a class="image is-64x64" href="#">
-                                                        <img class="is-rounded"
-                                                            src="{{ url_for('static', filename='profile_pics/profile_placeholder.png') }}" alt="Image">
+                                                    <a class="image is-64x64" href="/user/${content[i]['username']}">
+                                                        <img class="is-rounded" src="{{ url_for('static', filename='profile_pics/profile_placeholder.png') }}" alt="Image">
                                                     </a>
                                                 </div>
                                                 <div class="media-content">
@@ -56,7 +57,7 @@ function listing() {
                                             <div class="box child2" style="height: 400px; width: 346px;">
                                                 <div class="media">
                                                     <div class="media-left">
-                                                        <a class="image is-64x64" href="#">
+                                                        <a class="image is-64x64" href="/user/${content[i]['username']}">
                                                         <img class="is-rounded" src="{{ url_for('static', filename='profile_pics/profile_placeholder.png')}}" alt="Image">
                                                         </a>
                                                     </div>
@@ -103,7 +104,7 @@ function post() {
 
     $.ajax({
         type: "POST",
-        url: "/content", // 바꿔야할 내용
+        url: "/content",
         data: form_data,
         cache: false,
         contentType: false,
