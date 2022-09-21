@@ -1,3 +1,14 @@
+.my_image {
+    background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3) ),url("https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160226_120%2Fmanny80_1456450941142Jem1v_JPEG%2Flol_%25283%2529.jpg&type=a340");
+    background-position: center;
+
+     background-size: 100% 200px;
+
+      width: 100%;
+      height: 200px;
+}
+
+
 .filebox {
     margin-bottom: 10px;
 }
