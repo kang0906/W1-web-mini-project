@@ -17,7 +17,10 @@ function listing(username) {
             let content = response['posts'];
             for (let i = 0; i<content.length; i++) {
                 let post = content[i]
+                console.log(post)
                 let class_heart = ""
+                let time_post = new Date(post["date"])
+                let time_before = time2str(time_post)
                 if (post["heart_by_me"]) {
                     class_heart = "fa-heart"
                 } else {
@@ -37,7 +40,7 @@ function listing(username) {
                                                 <div class="media-content">
                                                     <div class="content">
                                                         <p>
-                                                            <strong>${post['username']}</strong> <small>@username</small> <small>10분 전</small>
+                                                            <strong>${post['username']}</strong><small> ${ time_before }</small>
                                                             <br>
                                                             ${content[i]['content']}
                                                         </p>
@@ -72,7 +75,7 @@ function listing(username) {
                                                     <div class="media-content">
                                                         <div class="content">
                                                             <p>
-                                                                <strong>${post['username']}</strong> <small>@username</small> <small>10분 전</small>
+                                                                <strong>${post['username']}</strong> <small> ${ time_before }</small>
                                                             </p>
                                                         </div>
                                                         <nav class="level is-mobile">
@@ -180,5 +183,23 @@ function num2str(count) {
         return ""
     }
     return count
+}
+
+function time2str(date) {
+    let today = new Date()
+    let time = (today - date) / 1000 / 60  // 분
+
+    if (time < 60) {
+        return parseInt(time) + "분 전"
+    }
+    time = time / 60  // 시간
+    if (time < 24) {
+        return parseInt(time) + "시간 전"
+    }
+    time = time / 24
+    if (time < 7) {
+        return parseInt(time) + "일 전"
+    }
+    return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`
 }
 

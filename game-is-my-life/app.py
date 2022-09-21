@@ -97,7 +97,7 @@ def save_content():
             "profile_pic_real": user_info["profile_pic_real"],
             'content':content_receive,
             'file':f'{filename}.{extension}',
-            'date':date,
+            'date':datetime.now().isoformat(),
             "username": user_info["username"]
         }
         db.posts.insert_one(doc)
@@ -109,7 +109,7 @@ def save_content():
             "profile_pic_real": user_info["profile_pic_real"],
             'content':content_receive,
             'file':'none',
-            'date':date,
+            'date':datetime.now().isoformat(),
             "username": user_info["username"]
         }
         db.posts.insert_one(doc)
