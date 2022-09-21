@@ -12,7 +12,7 @@ function listing() {
         url: "/content",
         data: {},
         success: function (response) {
-            let content = response['data'];
+            let content = response['posts'];
             for (let i = 0; i<content.length; i++) {
                 let post = content[i]
                 let class_heart = ""

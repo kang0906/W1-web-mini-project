@@ -109,12 +109,12 @@ def show_diary():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        alldata = list(db.data.find({}))
+        alldata = list(db.posts.find({}))
         for post in alldata:
             post["_id"] = str(post["_id"])
             post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
             post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": payload['id']}))
-        return jsonify({'data':alldata})
+        return jsonify({'posts':alldata})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("/"))
 
@@ -141,7 +141,7 @@ def save_content():
             'date':date,
             "username": user_info["username"]
         }
-        db.data.insert_one(doc)
+        db.posts.insert_one(doc)
         return jsonify({'msg': '저장완룡'})
     except :
         doc ={
@@ -150,7 +150,7 @@ def save_content():
             'date':date,
             "username": user_info["username"]
         }
-        db.data.insert_one(doc)
+        db.posts.insert_one(doc)
         return jsonify({'msg': '저장완룡'})
 
 
