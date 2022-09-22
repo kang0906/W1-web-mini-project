@@ -5,6 +5,7 @@ import jwt
 import requests
 from bs4 import BeautifulSoup
 from werkzeug.utils import secure_filename
+from bson.objectid import ObjectId
 
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 app = Flask(__name__)
@@ -67,9 +68,21 @@ def show_diary():
             post["_id"] = str(post["_id"])
             post["count_heart"] = db.likes.count_documents({"post_id": post["_id"], "type": "heart"})
             post["heart_by_me"] = bool(db.likes.find_one({"post_id": post["_id"], "type": "heart", "username": payload['id']}))
-        return jsonify({"posts":posts})
+        return jsonify({"posts":posts, "name":payload['id']})
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
+
+
+@app.route('/delete', methods=['POST'])
+def delete_content():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    _id = request.form['id_give']
+    user_info = db.posts.delete_one({'_id':ObjectId(_id)})
+    print(user_info)
+    return jsonify({'result': 'success','msg':'삭제 완료!'})
+    # 좋아요 수 변경
+    # user_info = db.posts.find_one({"_id": payload["id"]})
 
 
 @app.route('/content', methods=['POST'])

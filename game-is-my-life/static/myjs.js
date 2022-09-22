@@ -15,16 +15,24 @@ function listing(username) {
         data: {},
         success: function (response) {
             let content = response['posts'];
+            let my_name = response['name']
+            console.log(my_name)
             for (let i = 0; i<content.length; i++) {
                 let post = content[i]
                 console.log(post)
                 let class_heart = ""
                 let time_post = new Date(post["date"])
                 let time_before = time2str(time_post)
+                let delete_button = "none"
                 if (post["heart_by_me"]) {
                     class_heart = "fa-heart"
                 } else {
                     class_heart = "fa-heart-o"
+                }
+                if (post["username"]==my_name) {
+                    delete_button = ""
+                } else {
+                    delete_button = "none"
                 }
                 let count_heart = post['count_heart']
                 if (content[i]['file'] === "none") {
@@ -40,7 +48,7 @@ function listing(username) {
                                                 <div class="media-content">
                                                     <div class="content">
                                                         <p>
-                                                            <strong>${post['username']}</strong><small> ${ time_before }</small>
+                                                            <strong>${post['username']}</strong><small> ${ time_before }</small><button onclick="delete_content('${post["_id"]}')" style="position: absolute;top:5px; right: 5px; display: ${delete_button} " class="button level-item has-text-centered is-sparta is-outlined">delete</button>
                                                             <br>
                                                             ${content[i]['content']}
                                                         </p>
@@ -75,7 +83,7 @@ function listing(username) {
                                                     <div class="media-content">
                                                         <div class="content">
                                                             <p>
-                                                                <strong>${post['username']}</strong> <small> ${ time_before }</small>
+                                                                <strong>${post['username']}</strong> <small> ${ time_before }</small><button onclick="delete_content('${post["_id"]}')" style="position: absolute;top:5px; right: 5px; display: ${delete_button} " class="button level-item has-text-centered is-sparta is-outlined">delete</button>
                                                             </p>
                                                         </div>
                                                         <nav class="level is-mobile">
@@ -99,6 +107,24 @@ function listing(username) {
             }
         }
     })
+}
+
+function delete_content(_id) {
+    console.log(_id)
+    let form_data = new FormData();
+    form_data.append("id_give", _id);
+    $.ajax({
+        type: "POST",
+        url: "/delete",
+        data: form_data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            alert(response["msg"])
+            window.location.reload()
+        }
+    });
 }
 
 function post() {
