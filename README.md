@@ -1,2 +1,2 @@
-# W1-web-mini-project
-W1-web-mini-project
+6조 미니 프로젝트!
+게임을 하면서 있었던 일, 느꼈던 감정들을 자유롭게 기록 할 수 있는 공간
